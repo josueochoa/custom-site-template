@@ -23,12 +23,12 @@ touch ${VVV_PATH_TO_SITE}/log/nginx-access.log
 if [ "${WP_TYPE}" != "none" ]; then
 
   # Install and configure the latest stable version of WordPress
-  if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
+  if [[ ! -f "${VVV_PATH_TO_SITE}/web/wp-load.php" ]]; then
     echo "Downloading WordPress..." 
     noroot wp core download --version="${WP_VERSION}"
   fi
 
-  if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-config.php" ]]; then
+  if [[ ! -f "${VVV_PATH_TO_SITE}/web/wp-config.php" ]]; then
     echo "Configuring WordPress Stable..."
     noroot wp core config --dbname="${DB_NAME}" --dbuser=wp --dbpass=wp --quiet --extra-php <<PHP
 define( 'WP_DEBUG', true );
@@ -50,7 +50,7 @@ PHP
     noroot wp core ${INSTALL_COMMAND} --url="${DOMAIN}" --quiet --title="${SITE_TITLE}" --admin_name=admin --admin_email="admin@local.test" --admin_password="password"
   else
     echo "Updating WordPress Stable..."
-    cd ${VVV_PATH_TO_SITE}/public_html
+    cd ${VVV_PATH_TO_SITE}/web
     noroot wp core update --version="${WP_VERSION}"
   fi
 fi
